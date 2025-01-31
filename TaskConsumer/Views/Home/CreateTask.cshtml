@@ -1,0 +1,11 @@
+@model TaskCreate
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>Create Task</h2>
+<form method="post" asp-action="CreateTask" asp-controller="Home">
+    <input type="text" asp-for="Title" placeholder="New Task"/>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

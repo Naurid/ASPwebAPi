@@ -1,0 +1,52 @@
+@using Repository.Entities
+@model List<Repository.Entities.TaskEntity>
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>Tasks</h2>
+<div class="container-fluid d-flex flex-wrap" style="gap: 1rem; padding: 20px; height: auto; width: 100%">
+  
+    @foreach (TaskEntity task in Model)
+    {
+        <form method="post" action="@Url.Action("ChangeStatus", "Home")">
+            <input type="hidden" name="id" value="@task.Id" />
+            <button type="submit" class="card cardLink @(task.Status == "Cloturee" ? "active" : "")" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="h5 text-dark">@task.Title.ToUpper()</h5>
+                    <h6 class="h6 text-dark text-muted">Creation Date: @task.Date.ToString("g")</h6>
+                    <p id="@(task.Id)" class="p card-text">@(task.Status == "En Cours" ? "Click to complete" : "Task Completed")</p>
+                </div>
+            </button>
+        </form>
+    }
+</div>
+
+<style>
+    button.cardLink {
+        background-color: #f8d7da; /* pale red */
+        transition: background-color 0.3s ease;
+    }
+
+    .card {
+        background-color: inherit; /* Make sure the card background inherits the a tag color */
+        transition: background-color 0.3s ease;
+    }
+
+    /* If 'active' class is applied */
+    button.active, button.active .card {
+        background-color: #d4edda; /* pale green */
+    }
+</style>
+
+<script>
+    function toggleBackgroundColor(element, statusId) {
+        // Toggle the 'active' class on the <a> tag
+        if (!element.classList.contains("active")){
+            element.classList.add("active");
+            document.getElementById(statusId).textContent = "Task Completed"
+        }
+    }
+</script>
+
