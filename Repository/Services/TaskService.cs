@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Repository.Entities;
@@ -23,12 +24,13 @@ public class TaskService: ITaskRepository
         throw new NotImplementedException();
     }
 
-    public async Task<List<TaskEntity>> GetAllTasks()
+    public async Task<List<TaskEntity>> GetAllTasks(string token)
     {
         try
         {
             using (_httpClient)
             {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage response = await _httpClient.GetAsync("/api/Task");
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsAsync<List<TaskEntity>>();
